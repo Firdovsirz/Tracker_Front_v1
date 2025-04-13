@@ -1,5 +1,5 @@
 import axios, { InternalAxiosRequestConfig } from "axios";
-import store from "../redux/store";
+import {store} from "../redux/store";
 
 const apiClient = axios.create({
   baseURL: "https://trackerbackv1-production.up.railway.app",
@@ -7,7 +7,7 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const token = store.getState().auth.token;
+    const token = store.getState().authSlice.token;
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }

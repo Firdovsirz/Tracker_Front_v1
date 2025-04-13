@@ -17,7 +17,7 @@ export default function UserDropdown() {
   }
 
   // const token = useSelector((state: RootState) => state.auth.token);
-  const userDTO = useSelector((state: RootState) => state.auth.user);
+  const userDTO = useSelector((state: RootState) => state.authSlice.user);
   return (
     <div className="relative">
       <button
