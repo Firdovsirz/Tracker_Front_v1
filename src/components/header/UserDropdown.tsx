@@ -16,7 +16,7 @@ export default function UserDropdown() {
     setIsOpen(false);
   }
 
-  const token = useSelector((state: RootState) => state.auth.token);
+  // const token = useSelector((state: RootState) => state.auth.token);
   const userDTO = useSelector((state: RootState) => state.auth.user);
   return (
     <div className="relative">

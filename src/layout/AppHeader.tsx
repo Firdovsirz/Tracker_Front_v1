@@ -1,5 +1,4 @@
 import { Link } from "react-router";
-import TodoLogo from "../../public/todo.png";
 import { useEffect, useRef, useState } from "react";
 import { useSidebar } from "../context/SidebarContext";
 import UserDropdown from "../components/header/UserDropdown";
