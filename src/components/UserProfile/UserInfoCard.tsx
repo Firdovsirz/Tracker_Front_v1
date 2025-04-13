@@ -1,19 +1,19 @@
-import { useModal } from "../../hooks/useModal";
-import { Modal } from "../ui/modal";
-import Button from "../ui/button/Button";
-import Input from "../form/input/InputField";
-import Label from "../form/Label";
+// import { useModal } from "../../hooks/useModal";
+// import { Modal } from "../ui/modal";
+// import Button from "../ui/button/Button";
+// import Input from "../form/input/InputField";
+// import Label from "../form/Label";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 
 export default function UserInfoCard() {
-  const { isOpen, openModal, closeModal } = useModal();
-  const handleSave = () => {
-    // Handle save logic here
-    console.log("Saving changes...");
-    closeModal();
-  };
-  const token = useSelector((state: RootState) => state.auth.token);
+
+  // const handleSave = () => {
+  //   // Handle save logic here
+  //   console.log("Saving changes...");
+  //   closeModal();
+  // };
+  // const token = useSelector((state: RootState) => state.auth.token);
   const userDTO = useSelector((state: RootState) => state.auth.user);
   
   return (
@@ -86,7 +86,7 @@ export default function UserInfoCard() {
         </button> */}
       </div>
 
-      <Modal isOpen={isOpen} onClose={closeModal} className="max-w-[700px] m-4">
+      {/* <Modal isOpen={isOpen} onClose={closeModal} className="max-w-[700px] m-4">
         <div className="no-scrollbar relative w-full max-w-[700px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
           <div className="px-2 pr-14">
             <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
@@ -174,7 +174,7 @@ export default function UserInfoCard() {
             </div>
           </form>
         </div>
-      </Modal>
+      </Modal> */}
     </div>
   );
 }
