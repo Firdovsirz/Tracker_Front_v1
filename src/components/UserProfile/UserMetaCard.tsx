@@ -3,7 +3,7 @@ import { RootState } from "../../redux/store";
 
 export default function UserMetaCard() {
   // const token = useSelector((state: RootState) => state.auth.token);
-  const userDTO = useSelector((state: RootState) => state.auth.user);
+  const userDTO = useSelector((state: RootState) => state.authSlice.user);
 
   return (
     <>
