@@ -22,35 +22,24 @@ export default function SignInForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+    
     try {
       console.log("in submit");
-  
       const response = await apiClient.post("/auth/signin", {
         username,
         passwordHash,
-      }, {
-        headers: {
-          "Content-Type": "application/json"
-        },
-        withCredentials: true, 
       });
-  
-      console.log("Login response:", response);
-  
+      console.log(response);
+      
+
       const { userDTO, token } = response.data.data;
-      console.log("User data:", userDTO);
-  
-      // Save credentials to Redux
+      console.log(userDTO);
+      
       dispatch(setCredentials({ user: userDTO, token }));
-  
-      // Redirect to home page
+
       navigate("/");
-  
     } catch (error) {
       console.error("Login failed:", error);
-  
-      // Optionally display a user-friendly message here
     }
   };
 
