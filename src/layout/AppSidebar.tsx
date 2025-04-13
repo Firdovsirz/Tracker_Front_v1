@@ -1,5 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import TodoLogo from "../../public/todo.png";
 import { Link, useLocation } from "react-router";
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import { useCallback, useEffect, useRef, useState } from "react";
 
 // Assume these icons are imported from an icon library
 import {
@@ -28,7 +30,7 @@ const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
     name: "Dashboard",
-    subItems: [{ name: "Ecommerce", path: "/", pro: false }],
+    path: "/"
   },
   {
     icon: <CalenderIcon />,
@@ -36,59 +38,23 @@ const navItems: NavItem[] = [
     path: "/calendar",
   },
   {
-    icon: <UserCircleIcon />,
-    name: "User Profile",
-    path: "/profile",
-  },
-  {
-    name: "Forms",
+    name: "Notes",
     icon: <ListIcon />,
-    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
+    path: "/notes"
   },
   {
-    name: "Tables",
-    icon: <TableIcon />,
-    subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
-  },
-  {
-    name: "Pages",
-    icon: <PageIcon />,
-    subItems: [
-      { name: "Blank Page", path: "/blank", pro: false },
-      { name: "404 Error", path: "/error-404", pro: false },
-    ],
+    name: "Tasks",
+    icon: <TaskAltIcon />,
+    path: "/tasks"
   },
 ];
 
 const othersItems: NavItem[] = [
-  {
-    icon: <PieChartIcon />,
-    name: "Charts",
-    subItems: [
-      { name: "Line Chart", path: "/line-chart", pro: false },
-      { name: "Bar Chart", path: "/bar-chart", pro: false },
-    ],
-  },
-  {
-    icon: <BoxCubeIcon />,
-    name: "UI Elements",
-    subItems: [
-      { name: "Alerts", path: "/alerts", pro: false },
-      { name: "Avatar", path: "/avatars", pro: false },
-      { name: "Badge", path: "/badge", pro: false },
-      { name: "Buttons", path: "/buttons", pro: false },
-      { name: "Images", path: "/images", pro: false },
-      { name: "Videos", path: "/videos", pro: false },
-    ],
-  },
-  {
-    icon: <PlugInIcon />,
-    name: "Authentication",
-    subItems: [
-      { name: "Sign In", path: "/signin", pro: false },
-      { name: "Sign Up", path: "/signup", pro: false },
-    ],
-  },
+  // {
+  //   icon: <UserCircleIcon />,
+  //   name: "User Profile",
+  //   path: "/profile",
+  // },
 ];
 
 const AppSidebar: React.FC = () => {
@@ -305,28 +271,30 @@ const AppSidebar: React.FC = () => {
         <Link to="/">
           {isExpanded || isHovered || isMobileOpen ? (
             <>
-              <img
-                className="dark:hidden"
-                src="/images/logo/logo.svg"
+             <div className="flex justify-start items-center">
+             <img
+                // className="dark:hidden"
+                src={TodoLogo}
                 alt="Logo"
-                width={150}
-                height={40}
+                style={{
+                  width: "115px",
+                  height: "65px"
+                }}
               />
-              <img
-                className="hidden dark:block"
-                src="/images/logo/logo-dark.svg"
-                alt="Logo"
-                width={150}
-                height={40}
-              />
+              <h1 className="text-2xl" style={{color: "#00c0f0"}}>Ftask</h1>
+             </div>
             </>
           ) : (
-            <img
-              src="/images/logo/logo-icon.svg"
-              alt="Logo"
-              width={32}
-              height={32}
-            />
+            <>
+            <div className="flex jsutify-between items-center">
+              <img
+                src={TodoLogo}
+                alt="Logo"
+                width={32}
+                height={32}
+              />
+            </div>
+            </>
           )}
         </Link>
       </div>
@@ -349,7 +317,7 @@ const AppSidebar: React.FC = () => {
               </h2>
               {renderMenuItems(navItems, "main")}
             </div>
-            <div className="">
+            {/* <div className="">
               <h2
                 className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
                   !isExpanded && !isHovered
@@ -364,7 +332,7 @@ const AppSidebar: React.FC = () => {
                 )}
               </h2>
               {renderMenuItems(othersItems, "others")}
-            </div>
+            </div>  */}
           </div>
         </nav>
       </div>

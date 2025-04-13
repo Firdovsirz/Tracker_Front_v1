@@ -32,7 +32,9 @@ export default function SignInForm() {
       console.log(response);
       
 
-      const { userDTO, token } = response.data;
+      const { userDTO, token } = response.data.data;
+      console.log(userDTO);
+      
       dispatch(setCredentials({ user: userDTO, token }));
 
       navigate("/");
