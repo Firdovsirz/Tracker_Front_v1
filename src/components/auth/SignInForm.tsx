@@ -37,7 +37,7 @@ export default function SignInForm() {
       
       dispatch(setCredentials({ user: userDTO, token }));
 
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       console.error("Login failed:", error);
     }
