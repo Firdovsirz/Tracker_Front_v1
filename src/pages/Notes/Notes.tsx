@@ -21,11 +21,6 @@ export interface Note {
     updatedAt: string | null;
     username: string;
 }
-interface NoteRequest {
-    noteTitle: string;
-    noteDesc: string;
-    username: string;
-  }
 
 interface ApiResponse<T> {
     status: string;
@@ -51,7 +46,7 @@ export default function Notes() {
     const [noteTitle, setNoteTitle] = useState("");
     const [noteDesc, setNoteDesc] = useState("");
     const username = useSelector((state: RootState) => state.authSlice.user?.username);
-    
+
     const handleCreate = async (e: React.FormEvent) => {
         e.preventDefault();
         const noteRequest = {
