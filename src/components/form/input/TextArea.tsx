@@ -46,6 +46,7 @@ const TextArea: React.FC<TextareaProps> = ({
         onChange={handleChange}
         disabled={disabled}
         className={textareaClasses}
+        required
       />
       {hint && (
         <p

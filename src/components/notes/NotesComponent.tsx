@@ -12,7 +12,9 @@ import Skeleton from "react-loading-skeleton";
 import { useModal } from "../../hooks/useModal";
 import EditIcon from '@mui/icons-material/Edit';
 import "react-loading-skeleton/dist/skeleton.css";
+import NotFoundIcon from "../../../public/404.png";
 import DeleteIcon from '@mui/icons-material/Delete';
+import WarningIcon from '@mui/icons-material/Warning';
 
 export interface Note {
     id: number;
@@ -30,6 +32,7 @@ export interface NotesResponse {
     data: Note[];
     statusMessage: string | null;
 }
+
 export async function deleteNote(serialNumber: number): Promise<void> {
     try {
       const response = await apiClient.delete(`/api/note/delete/${serialNumber}`);
@@ -152,9 +155,14 @@ export default function NotesComponent() {
                         </div>
                     ))}
                 </>
+            ) : notes.length === 0 ? (
+                <div className='flex flex-col sm:flex-row justify-center items-center p-[50px] text-center sm:text-left'>
+                    <img src={NotFoundIcon} alt="not-found" className='w-[200px] h-[200px] sm:mr-[50px] mb-5 sm:mb-0'/>
+                    <p className='text-gray-400 text-[20px] dark:text-white/90'>NO NOTES FOUND.</p>
+                </div>
             ) : (
                 notes.map((note, index) => (
-                    <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03] p-2 my-5" key={index}>
+                    <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03] p-5 my-5" key={index}>
                         <div className="flex justify-between items-center">
                             <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
                                 {note.serialNumber}
@@ -171,7 +179,14 @@ export default function NotesComponent() {
                             </p>
                         </div>
                         <div>
-                            <h3 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md" style={{ fontSize: 20 }}>{note.noteTitle}</h3>
+                            <h3 className="flex items-center mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md" style={{ fontSize: 20 }}>
+                                {note.noteTitle && note.noteTitle.trim().length > 0 ? note.noteTitle : (
+                                    <div className='flex items-center'>
+                                         <WarningIcon className='mr-2' style={{color: "#c2c00b"}}/>
+                                         <p>No Title Available</p>
+                                    </div>
+                                )}
+                            </h3>
                             <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{note.noteDesc}</p>
                         </div>
                         <div className="flex">
