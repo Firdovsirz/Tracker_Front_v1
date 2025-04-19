@@ -1,8 +1,9 @@
+import Swal from 'sweetalert2';
 import PageMeta from "../../components/common/PageMeta";
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
 import NotesComponent from "../../components/notes/NotesComponent";
 import Button from "../../components/ui/button/Button";
-import Label from "../../components/form/Label"; 
+import Label from "../../components/form/Label";
 import { Modal } from "../../components/ui/modal";
 import { useModal } from "../../hooks/useModal";
 import Input from "../../components/form/input/InputField";
@@ -26,41 +27,85 @@ interface ApiResponse<T> {
     status: string;
     data: T;
     message?: string;
-  }
-  export async function createNote(note: Note): Promise<ApiResponse<Note> | null> {
+}
+
+export async function createNote(note: Note, token: string, closeModal: () => void, resetForm: () => void): Promise<ApiResponse<Note> | null> {
     try {
-      const response = await apiClient.post<ApiResponse<Note>>("/api/create/note", note);
-  
-      return response.data;
+        const response = await apiClient.post<ApiResponse<Note>>(
+            "/api/create/note",
+            note,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        closeModal();
+        resetForm();
+        await Swal.fire({
+            title: 'Created!',
+            text: 'Note created.',
+            icon: 'success',
+            confirmButtonText: 'OK',
+        });
+        window.location.reload();
+        return response.data;
     } catch (error: any) {
-      if (error.response) {
-        console.error("Error creating note:", error.response.data);
-      } else {
-        console.error("Network error:", error.message);
-      }
-      return null;
+        if (error.response) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.response.data?.message || 'An error occurred while creating the note.',
+                icon: 'error',
+                confirmButtonText: 'CLOSE',
+            });
+            console.error("Error creating note:", error.response.data);
+        } else {
+            Swal.fire({
+                title: 'Network Error!',
+                text: 'Unable to reach the server. Please check your connection.',
+                icon: 'error',
+                confirmButtonText: 'CLOSE',
+            });
+            console.error("Network error:", error.message);
+        }
+        return null;
     }
-  }
+}
+
 export default function Notes() {
     const { isOpen, openModal, closeModal } = useModal();
     const [noteTitle, setNoteTitle] = useState("");
     const [noteDesc, setNoteDesc] = useState("");
     const username = useSelector((state: RootState) => state.authSlice.user?.username);
+    const token = useSelector((state: RootState) => state.authSlice.token);
+
+    const resetForm = () => {
+        setNoteTitle("");
+        setNoteDesc("");
+    };
 
     const handleCreate = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (!token) {
+            Swal.fire({
+                title: 'Unauthorized!',
+                text: 'You must be logged in to create a note.',
+                icon: 'warning',
+                confirmButtonText: 'OK',
+            });
+            return;
+        }
+
         const noteRequest = {
             noteTitle,
             noteDesc,
             username: username,
         };
 
-        const response = await createNote(noteRequest as any);
+        const response = await createNote(noteRequest as any, token, closeModal, resetForm);
         if (response) {
             console.log("Note created:", response.data);
-            closeModal();
-            setNoteTitle("");
-            setNoteDesc("");
         }
     };
     return (
@@ -71,7 +116,7 @@ export default function Notes() {
             />
             <PageBreadcrumb pageTitle="Notes" />
             <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6 flex justify-between items-center">
-                <h3 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md" style={{fontSize: 30}}>
+                <h3 className="mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md" style={{ fontSize: 30 }}>
                     Notes
                 </h3>
                 <Button onClick={() => {
@@ -97,7 +142,7 @@ export default function Notes() {
                                 </div>
                                 <div className="lg:col-span-2">
                                     <Label>Description</Label>
-                                    <Textarea value={noteDesc} onChange={(value: string) => setNoteDesc(value)} rows={2}/>
+                                    <Textarea value={noteDesc} onChange={(value: string) => setNoteDesc(value)} rows={2} />
                                 </div>
                             </div>
                         </div>
