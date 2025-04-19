@@ -1,4 +1,5 @@
-import Label from "../form/Label";
+import Swal from 'sweetalert2';
+import Label from "../form/Label"; 
 import { Modal } from "../ui/modal";
 import Button from "../ui/button/Button";
 import { useSelector } from "react-redux";
@@ -29,7 +30,26 @@ export interface NotesResponse {
     data: Note[];
     statusMessage: string | null;
 }
-
+export async function deleteNote(serialNumber: number): Promise<void> {
+    try {
+      const response = await apiClient.delete(`/api/note/delete/${serialNumber}`);
+      console.log(response);
+      
+      Swal.fire({
+        title: 'Deleted!',
+        text: `The note with the ${serialNumber} serial number deleted.`,
+        icon: 'success',
+        confirmButtonText: 'OK',
+      });
+    } catch (error: any) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.response?.data?.message || 'Error happened when try to delete.',
+        icon: 'error',
+        confirmButtonText: 'CLOSE',
+      });
+    }
+  }
 export default function NotesComponent() {
     const [notes, setNotes] = useState<Note[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -42,7 +62,7 @@ export default function NotesComponent() {
 
     const handleSave = async (e: React.FormEvent) => {
         e.preventDefault();
-        
+
         console.log("handleSave function triggered");
 
         if (!selectedNote) {
@@ -111,6 +131,15 @@ export default function NotesComponent() {
         }
     }, [selectedNote]);
 
+    const handleDelete = async (serialNumber: number) => {
+        try {
+            await deleteNote(serialNumber);
+            setNotes(prev => prev.filter(note => note.serialNumber !== serialNumber));
+        } catch (err) {
+            console.error("Failed to delete note:", err);
+        }
+    };
+
     return (
         <>
             {loading ? (
@@ -147,13 +176,13 @@ export default function NotesComponent() {
                         </div>
                         <div className="flex">
                             <div className="rounded-[5px] p-2 w-[fit-content] h-[fit-content] mr-2" style={{ background: "blue", color: "#fff", cursor: "pointer" }}>
-                                <EditIcon onClick={() => { 
-                                    console.log("Opening modal with note:", note); 
-                                    setSelectedNote(note); 
-                                    openModal(); 
+                                <EditIcon onClick={() => {
+                                    console.log("Opening modal with note:", note);
+                                    setSelectedNote(note);
+                                    openModal();
                                 }} />
                             </div>
-                            <div className="rounded-[5px] p-2 w-[fit-content] h-[fit-content]" style={{ background: "red", color: "#fff", cursor: "pointer" }}>
+                            <div className="rounded-[5px] p-2 w-[fit-content] h-[fit-content]" style={{ background: "red", color: "#fff", cursor: "pointer" }} onClick={() => handleDelete(note.serialNumber)}>
                                 <DeleteIcon />
                             </div>
                         </div>

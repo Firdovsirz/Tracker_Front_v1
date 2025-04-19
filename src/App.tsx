@@ -19,6 +19,7 @@ import AppLayout from "./layout/AppLayout";
 import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
 import Notes from "./pages/Notes/Notes";
+import Tasks from "./pages/Tasks/Tasks";
 
 export default function App() {
   return (
@@ -55,6 +56,9 @@ export default function App() {
 
             {/* Notes */}
             <Route path="/notes" element={<Notes />} />
+
+            {/* Tasks */}
+            <Route path="/tasks" element={<Tasks />} />
           </Route>
 
           {/* Auth Layout */}
