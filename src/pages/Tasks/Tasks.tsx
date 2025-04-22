@@ -86,9 +86,9 @@ export default function Notes() {
     const [deadline, setDeadline] = useState(""); // ISO string
     const username = useSelector((state: RootState) => state.authSlice.user?.username);
     const token = useSelector((state: RootState) => state.authSlice.token);
-    const [isChecked, setIsChecked] = useState(false);
+    // const [isChecked, setIsChecked] = useState(false);
     const [isCheckedTwo, setIsCheckedTwo] = useState(true);
-    const [isCheckedDisabled, setIsCheckedDisabled] = useState(false);
+    // const [isCheckedDisabled, setIsCheckedDisabled] = useState(false);
 
     const resetForm = () => {
         setTaskTitle("");
