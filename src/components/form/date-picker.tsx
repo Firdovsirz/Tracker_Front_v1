@@ -31,6 +31,9 @@ export default function DatePicker({
       dateFormat: "Y-m-d",
       defaultDate,
       onChange,
+      onReady: function (selectedDates, dateStr, instance) {
+        instance.calendarContainer.style.zIndex = "9999";
+      }
     });
 
     return () => {
