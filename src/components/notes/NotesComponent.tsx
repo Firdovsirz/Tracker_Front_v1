@@ -1,5 +1,5 @@
 import Swal from 'sweetalert2';
-import Label from "../form/Label"; 
+import Label from "../form/Label";
 import { Modal } from "../ui/modal";
 import Button from "../ui/button/Button";
 import { useSelector } from "react-redux";
@@ -35,24 +35,25 @@ export interface NotesResponse {
 
 export async function deleteNote(serialNumber: number): Promise<void> {
     try {
-      const response = await apiClient.delete(`/api/note/delete/${serialNumber}`);
-      console.log(response);
-      
-      Swal.fire({
-        title: 'Deleted!',
-        text: `The note with the ${serialNumber} serial number deleted.`,
-        icon: 'success',
-        confirmButtonText: 'OK',
-      });
+        const response = await apiClient.delete(`/api/note/delete/${serialNumber}`);
+        console.log(response);
+
+        Swal.fire({
+            title: 'Deleted!',
+            text: `The note with the ${serialNumber} serial number deleted.`,
+            icon: 'success',
+            confirmButtonText: 'OK',
+        });
     } catch (error: any) {
-      Swal.fire({
-        title: 'Error!',
-        text: error.response?.data?.message || 'Error happened when try to delete.',
-        icon: 'error',
-        confirmButtonText: 'CLOSE',
-      });
+        Swal.fire({
+            title: 'Error!',
+            text: error.response?.data?.message || 'Error happened when try to delete.',
+            icon: 'error',
+            confirmButtonText: 'CLOSE',
+        });
     }
-  }
+}
+
 export default function NotesComponent() {
     const [notes, setNotes] = useState<Note[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -157,7 +158,7 @@ export default function NotesComponent() {
                 </>
             ) : notes.length === 0 ? (
                 <div className='flex flex-col sm:flex-row justify-center items-center p-[50px] text-center sm:text-left'>
-                    <img src={NotFoundIcon} alt="not-found" className='w-[200px] h-[200px] sm:mr-[50px] mb-5 sm:mb-0'/>
+                    <img src={NotFoundIcon} alt="not-found" className='w-[200px] h-[200px] sm:mr-[50px] mb-5 sm:mb-0' />
                     <p className='text-gray-400 text-[20px] dark:text-white/90'>NO NOTES FOUND.</p>
                 </div>
             ) : (
@@ -182,8 +183,8 @@ export default function NotesComponent() {
                             <h3 className="flex items-center mb-2 font-semibold text-gray-800 text-title-sm dark:text-white/90 sm:text-title-md" style={{ fontSize: 20 }}>
                                 {note.noteTitle && note.noteTitle.trim().length > 0 ? note.noteTitle : (
                                     <div className='flex items-center'>
-                                         <WarningIcon className='mr-2' style={{color: "#c2c00b"}}/>
-                                         <p>No Title Available</p>
+                                        <WarningIcon className='mr-2' style={{ color: "#c2c00b" }} />
+                                        <p>No Title Available</p>
                                     </div>
                                 )}
                             </h3>

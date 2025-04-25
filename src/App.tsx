@@ -20,6 +20,7 @@ import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
 import Notes from "./pages/Notes/Notes";
 import Tasks from "./pages/Tasks/Tasks";
+import PinCode from "./pages/PinCode/PinCode";
 
 export default function App() {
   return (
@@ -59,6 +60,9 @@ export default function App() {
 
             {/* Tasks */}
             <Route path="/tasks" element={<Tasks />} />
+
+            {/* Pin code screen */}
+            <Route path="/pin-code" element={<PinCode />} />
           </Route>
 
           {/* Auth Layout */}
